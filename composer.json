@@ -1,0 +1,21 @@
+{
+    "name": "maocae/env",
+    "description": "PHP Environment Manager",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Maocae\\Env\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ritsu Hezayuki",
+            "email": "ritsu.hezayuki@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^8.2"
+    }
+}
