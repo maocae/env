@@ -6,7 +6,10 @@
     "autoload": {
         "psr-4": {
             "Maocae\\Env\\": "src/"
-        }
+        },
+        "files": [
+            "src/functions.php"
+        ]
     },
     "authors": [
         {
