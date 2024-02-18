@@ -7,6 +7,7 @@ use Maocae\Env\Interfaces\ParserInterface;
 use Maocae\Support\Patterns\Traits\CallStatically;
 
 /**
+ * @mixin BaseClass
  * @method static void loadFromFile(string $path)
  * @method static void setParser(string|object $parser)
  * @method static ParserInterface getParser()

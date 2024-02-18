@@ -10,6 +10,20 @@ use Maocae\Env\Interfaces\ParserInterface;
 class EnvParser implements ParserInterface
 {
     /**
+     * Delimiter to open variable references in the values.
+     *
+     * @var string $variable_delimiter_open
+     */
+    protected string $variable_delimiter_open = '{';
+
+    /**
+     * Delimiter to close variable references in the values.
+     *
+     * @var string $variable_delimiter_close
+     */
+    protected string $variable_delimiter_close = '}';
+
+    /**
      * Token to tell the parser that the line is a comment
      *
      * @var string $comment_token
@@ -63,7 +77,6 @@ class EnvParser implements ParserInterface
             } else {
                 $line = trim($line);
 
-
                 if ($this->isLineEmptyOrAComment($line)) {
                     continue;
                 }
@@ -91,6 +104,10 @@ class EnvParser implements ParserInterface
                 }
                 $unfinished_key = null;
                 $unfinished_value = null;
+            }
+
+            if (str_contains($value, $this->variable_delimiter_open)) {
+                $value = $this->translateVariable($value);
             }
 
             Env::setEnv($key, $value);
@@ -128,5 +145,20 @@ class EnvParser implements ParserInterface
         }
 
         return null;
+    }
+
+    /**
+     * Translate any variable inside given line with its reference
+     *
+     * @param string $line
+     * @return string
+     */
+    protected function translateVariable(string $line): string
+    {
+        return preg_replace_callback("/$this->variable_delimiter_open([^$this->variable_delimiter_close]+)$this->variable_delimiter_close/", function ($matches) {
+            $key = $matches[1];
+
+            return Env::getEnv($key, $matches[0]);
+        }, $line);
     }
 }
