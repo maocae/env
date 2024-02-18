@@ -3,22 +3,31 @@
 namespace Maocae\Env;
 
 use Maocae\Env\Exceptions\ImmutableKeyException;
+use Maocae\Env\Interfaces\ParserInterface;
 use Maocae\Support\Patterns\Singleton;
 
 class Env extends Singleton
 {
     /**
+     * File parser instance
+     *
+     * @var ParserInterface $parser
+     */
+    protected ParserInterface $parser;
+
+    /**
      * Prevent any change on any applied environment variable
      *
      * @var bool $immutable
      */
+    
     protected bool $immutable = false;
-
     /**
      * Set whether the new variable gonna stored on $_ENV or putenv
      *
      * @var bool $store_in_env_variables
      */
+
     protected bool $store_in_env_variables = true;
     /**
      * Set to true to only return local environment variables (set by the operating system or putenv).
@@ -26,6 +35,42 @@ class Env extends Singleton
      * @var bool $local_only
      */
     protected bool $local_only = true;
+
+    /**
+     * Return parser instance
+     *
+     * @return ParserInterface
+     */
+    public function getParser(): ParserInterface
+    {
+        return $this->parser;
+    }
+
+    /**
+     * Set environment file parser
+     *
+     * @param string|object $parser
+     * @return void
+     */
+    public function setParser(string|object $parser): void
+    {
+        if (is_string($parser)) {
+            $parser = new $parser();
+        }
+
+        $this->parser = $parser;
+    }
+
+    /**
+     * Load environment data from file
+     *
+     * @param string $path
+     * @return void
+     */
+    public function loadFromFile(string $path): void
+    {
+        $this->parser->loadFromFile($path);
+    }
 
     /**
      * Set whether the new variable gonna stored on $_ENV or putenv

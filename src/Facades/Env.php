@@ -3,9 +3,13 @@
 namespace Maocae\Env\Facades;
 
 use Maocae\Env\Env as BaseClass;
+use Maocae\Env\Interfaces\ParserInterface;
 use Maocae\Support\Patterns\Traits\CallStatically;
 
 /**
+ * @method static void loadFromFile(string $path)
+ * @method static void setParser(string|object $parser)
+ * @method static ParserInterface getParser()
  * @method static void setImmutable(bool $immutable = true)
  * @method static void setLocalOnly(bool $local_only = true)
  * @method static void setStoreInEnvironmentVariables(bool $store_in_env_variables = true)
