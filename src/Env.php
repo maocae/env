@@ -4,6 +4,7 @@ namespace Maocae\Env;
 
 use Maocae\Env\Exceptions\ImmutableKeyException;
 use Maocae\Env\Interfaces\ParserInterface;
+use Maocae\Env\Parsers\EnvParser;
 use Maocae\Support\Patterns\Singleton;
 
 class Env extends Singleton
@@ -14,13 +15,12 @@ class Env extends Singleton
      * @var ParserInterface $parser
      */
     protected ParserInterface $parser;
-
     /**
      * Prevent any change on any applied environment variable
      *
      * @var bool $immutable
      */
-    
+
     protected bool $immutable = false;
     /**
      * Set whether the new variable gonna stored on $_ENV or putenv
@@ -35,6 +35,13 @@ class Env extends Singleton
      * @var bool $local_only
      */
     protected bool $local_only = true;
+
+    protected function __construct(...$args)
+    {
+        parent::__construct($args);
+
+        $this->setParser(EnvParser::class);
+    }
 
     /**
      * Return parser instance
